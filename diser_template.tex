@@ -1,0 +1,24 @@
+%% Шаблон диссертации
+%%
+
+\documentclass{diserby}
+
+\begin{document}
+\input{names}             % Имена (подстановки)
+\input{characteristics}   % Части общей характеристики работы
+  
+%% Структура диссертации в соответствии с п.5 (глава 2)
+\maketitle                % Титульный лист (п.7, приложение 1)
+\tableofcontents          % Оглавление (п.8)
+\input{abbreviations}     % Перечень сокращений и (или) условных обозначений (п.9)
+\input{introduction}      % Введение (п.10)
+\MakeCharacteristics
+
+%% Основная часть, разбитая на главы
+\input{chapter1}          % Глава 1
+\input{chapter2}          % Глава 2
+
+\input{bibliography}      % Библиографический список
+\input{appendixes}        % Приложения
+
+\end{document}
