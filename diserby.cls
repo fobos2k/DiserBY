@@ -664,49 +664,74 @@
   \fi
 }
 
+%% БИБЛИОГРАФИЯ
+\RequirePackage{cite}
+\newcommand\Bibliography{
+  \chapter*{БИБЛИОГРАФИЧЕСКИЙ СПИСОК}
+  \addcontentsline{toc}{chapter}{БИБЛИОГРАФИЧЕСКИЙ СПИСОК}%
+  }
 \newdimen\bibindent
 \setlength\bibindent{1.5em}
 \newenvironment{thebibliography}[1]
-     {\chapter*{\bibname
-        \@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}}%
-      \list{\@biblabel{\@arabic\c@enumiv}}%
-           {\settowidth\labelwidth{\@biblabel{#1}}%
-            \leftmargin\labelwidth
-            \advance\leftmargin\labelsep
-            \@openbib@code
-            \usecounter{enumiv}%
-            \let\p@enumiv\@empty
-            \renewcommand\theenumiv{\@arabic\c@enumiv}}%
-      \sloppy\clubpenalty4000\widowpenalty4000%
-      \sfcode`\.\@m}
-     {\def\@noitemerr
-       {\@latex@warning{Empty `thebibliography' environment}}%
-      \endlist}
+{\section*{\bibname}%
+  \addcontentsline{toc}{section}{\bibname}%
+  \list{\@biblabel{\@arabic\c@enumiv}\hfill}%
+  {\settowidth\labelwidth{\@biblabel{#1.}}%
+    \setlength\labelsep{0em}
+    \leftmargin = 0mm
+    \itemindent = \leftmargin
+    \advance\itemindent\parindent
+    \advance\itemindent\labelwidth
+    \advance\itemindent\labelsep
+    \@openbib@code
+    \usecounter{enumiv}%
+    \let\p@enumiv\@empty
+    \renewcommand\theenumiv{\@arabic\c@enumiv}
+  }
+  \sloppy
+  \clubpenalty4000
+  \@clubpenalty \clubpenalty
+  \widowpenalty4000%
+  \sfcode`\.\@m}
+{\def\@noitemerr
+  {\@latex@warning{Empty `thebibliography' environment}}%
+  \setlength\labelsep{0.5em}
+  %\renewcommand\labelenumiv{\theenumiv.}
+  \endlist}
+
+\newcommand{\mybibname}{Список публикаций соискателя учёной степени}
+\newenvironment{mybibliography}[1]
+{\section*{\mybibname}%
+  \addcontentsline{toc}{section}{\mybibname}%
+  \list{\@biblabel{\@arabic\c@enumiv--A}\hfill}%
+  {\settowidth\labelwidth{\@biblabel{#1--A.}}%
+    \setlength\labelsep{0em}
+    \leftmargin = 0mm
+    \itemindent = \leftmargin
+    \advance\itemindent\parindent
+    \advance\itemindent\labelwidth
+    \advance\itemindent\labelsep
+    \@openbib@code
+    \usecounter{enumiv}%
+    \let\p@enumiv\@empty
+    \renewcommand\theenumiv{\@arabic\c@enumiv}
+    %\renewcommand\bibitem[1]{\item\hyp@def{##1}\if@filesw \immediate\write\@auxout
+    %  {\string\bibcite{##1}{\@arabic\c@enumiv--A}}\fi\ignorespaces}%
+  }%end of the second argument of the \list 
+  \sloppy
+  \clubpenalty4000
+  \@clubpenalty \clubpenalty
+  \widowpenalty4000%
+  \sfcode`\.\@m}%
+{\def\@noitemerr
+  {\@latex@warning{Empty `mybibliography' environment}}%
+  \setlength\labelsep{0.5em}
+  \endlist}
 \newcommand\newblock{\hskip .11em\@plus.33em\@minus.07em}
 \let\@openbib@code\@empty
-\newenvironment{theindex}
-               {\columnseprule \z@
-                \columnsep 35\p@
-                \twocolumn[\@makeschapterhead{\indexname}]%
-                \@mkboth{\MakeUppercase\indexname}%
-                        {\MakeUppercase\indexname}%
-                \thispagestyle{plain}\parindent\z@
-                \parskip\z@ \@plus .3\p@\relax
-                \let\item\@idxitem}
-               {\clearpage}
-\newcommand\@idxitem{\par\hangindent 40\p@}
-\newcommand\subitem{\@idxitem \hspace*{20\p@}}
-\newcommand\subsubitem{\@idxitem \hspace*{30\p@}}
-\newcommand\indexspace{\par \vskip 10\p@ \@plus5\p@ \@minus3\p@\relax}
-\renewcommand\footnoterule{%
-  \kern-3\p@
-  \hrule\@width.4\columnwidth
-  \kern2.6\p@}
-\@addtoreset{footnote}{chapter}
-\newcommand\@makefntext[1]{%
-    \parindent 1em%
-    \noindent
-    \hb@xt@1.8em{\hss\@makefnmark}#1}
+
+
+
 \newcommand\contentsname{Contents}
 \newcommand\listfigurename{List of Figures}
 \newcommand\listtablename{List of Tables}
