@@ -570,30 +570,71 @@
   \addcontentsline{toc}{chapter}{ПЕРЕЧЕНЬ СОКРАЩЕНИЙ И УСЛОВНЫХ ОБОЗНАЧЕНИЙ}%
 }
 
-\newcommand\Characteristics{% (п.11)
-  \chapter*{ОБЩАЯ ХАРАКТЕРИСТИКА РАБОТЫ}
-  \addcontentsline{toc}{chapter}{ОБЩАЯ ХАРАКТЕРИСТИКА РАБОТЫ}%
-}
-\newcommand\CharacteristicsLinks{%
-  \def\CharacteristicsLinksName{Связь работы с научными программами (проектами), темами}
+%% ОБЩАЯ ХАРАКТЕРИСТИКА РАБОТЫ (п.11)
+\def\CharacteristicTitle{ОБЩАЯ ХАРАКТЕРИСТИКА РАБОТЫ}
+\def\CharacteristicLinksTitle{Связь работы с научными программами (проектами), темами}
+\def\CharacteristicTargetsTitle{Цель и задачи исследования}
+\def\CharacteristicNoveltyTitle{Научная новизна}
+\def\CharacteristicIdeasTitle{Положения, выносимые на защиту}
+\def\CharacteristicContributionTitle{Личный вклад соискателя учёной степени}
+\def\CharacteristicApprobationTitle{Апробация диссертации и информация об использовании её результатов}
+\def\CharacteristicPublicationTitle{Опубликование результатов диссертации}
+\def\CharacteristicStructureTitle{Структура и объём диссертации}
+
+\newcommand\Characteristic{% Заголовок
   \if@thesis
-    \section*{\CharacteristicsLinksName}
+    \chapter*\CharacteristicTitle
+    \addcontentsline{toc}{chapter}\CharacteristicTitle
   \else
-    \textbf{\CharacteristicsLinksName. }
   \fi
 }
-\newcommand\CharacteristicsTargets{%
-  \def\CharacteristicsTargetsName{Цель и задачи исследования}
+\newcommand\CharacteristicLinks{%
   \if@thesis
-    \section*{\CharacteristicsTargetsName}
+    \section*\CharacteristicLinksTitle
   \else
-    \textbf{\CharacteristicsTargetsName. }
   \fi
 }
-\newcommand\MakeCharacteristics{%
-  \Characteristics
-  \@CharacteristicsLinks
-  \global\let\maketitle\relax
+\newcommand\CharacteristicTargets{%
+  \if@thesis
+    \section*\CharacteristicTargetsTitle
+  \else
+  \fi
+}
+\newcommand\CharacteristicNovelty{%
+  \if@thesis
+    \section*\CharacteristicNoveltyTitle
+  \else
+  \fi
+}
+\newcommand\CharacteristicIdeas{%
+  \if@thesis
+    \section*\CharacteristicIdeasTitle
+  \else
+  \fi
+}
+\newcommand\CharacteristicContribution{%
+  \if@thesis
+    \section*\CharacteristicContributionTitle
+  \else
+  \fi
+}
+\newcommand\CharacteristicApprobation{%
+  \if@thesis
+    \section*\CharacteristicApprobationTitle
+  \else
+  \fi
+}
+\newcommand\CharacteristicPublication{%
+  \if@thesis
+    \section*\CharacteristicPublicationTitle
+  \else
+  \fi
+}
+\newcommand\CharacteristicStructure{%
+  \if@thesis
+    \section*\CharacteristicStructureTitle
+  \else
+  \fi
 }
 
 \newdimen\bibindent
