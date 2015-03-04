@@ -293,14 +293,10 @@
 \newcounter {section}[chapter]
 \newcounter {subsection}[section]
 \newcounter {subsubsection}[subsection]
-\newcounter {paragraph}[subsubsection]
-\newcounter {subparagraph}[paragraph]
 \renewcommand\thechapter      {\@arabic\c@chapter}
 \renewcommand\thesection      {\thechapter.\@arabic\c@section}
 \renewcommand\thesubsection   {\thesection.\@arabic\c@subsection}
 \renewcommand\thesubsubsection{\thesubsection .\@arabic\c@subsubsection}
-\renewcommand\theparagraph    {\thesubsubsection.\@arabic\c@paragraph}
-\renewcommand\thesubparagraph {\theparagraph.\@arabic\c@subparagraph}
 \newcommand\@chapapp{\chaptername}
 
 \newcommand\chapter{\if@openright\cleardoublepage\else\clearpage\fi
@@ -344,26 +340,20 @@
     \Huge \bfseries  #1\par\nobreak
     \vskip 40\p@
   }}
-\newcommand\section{\@startsection {section}{1}{\z@}%
-                                   {-3.5ex \@plus -1ex \@minus -.2ex}%
+\newcommand\section{\@startsection {section}{1}{\parindent}%
+                                   {3.5ex \@plus 1ex \@minus .2ex}%
                                    {2.3ex \@plus.2ex}%
-                                   {\normalfont\Large\bfseries}}
-\newcommand\subsection{\@startsection{subsection}{2}{\z@}%
-                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
-                                     {1.5ex \@plus .2ex}%
-                                     {\normalfont\large\bfseries}}
-\newcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
-                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
-                                     {1.5ex \@plus .2ex}%
-                                     {\normalfont\normalsize\bfseries}}
-\newcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
-                                    {3.25ex \@plus1ex \@minus.2ex}%
-                                    {-1em}%
-                                    {\normalfont\normalsize\bfseries}}
-\newcommand\subparagraph{\@startsection{subparagraph}{5}{\parindent}%
-                                       {3.25ex \@plus1ex \@minus .2ex}%
-                                       {-1em}%
-                                      {\normalfont\normalsize\bfseries}}
+                                   {\large\bfseries}}                                  
+\newcommand\subsection{\@startsection{subsection}{2}{\parindent}%
+                                   {3.25ex \@plus1ex \@minus.2ex}%
+                                   {2.3ex \@plus.2ex}%
+                                   {\normalfont\bfseries}}
+\newcommand\subsubsection{\@startsection{subsubsection}{3}{\parindent}%
+                                   {3.25ex \@plus1ex \@minus.2ex}%
+                                   {-1em}%
+                                   {\normalfont\bfseries}}
+
+%% СПИСКИ
 \setlength\leftmargini  {2.5em}
 \leftmargin  \leftmargini
 \setlength\leftmarginii  {2.2em}
@@ -381,17 +371,19 @@
 \renewcommand\theenumii{\@alph\c@enumii}
 \renewcommand\theenumiii{\@roman\c@enumiii}
 \renewcommand\theenumiv{\@Alph\c@enumiv}
-\newcommand\labelenumi{\theenumi.}
+\newcommand\labelenumi{\theenumi)}
 \newcommand\labelenumii{(\theenumii)}
-\newcommand\labelenumiii{\theenumiii.}
-\newcommand\labelenumiv{\theenumiv.}
+\newcommand\labelenumiii{\theenumiii)}
+\newcommand\labelenumiv{\theenumiv)}
 \renewcommand\p@enumii{\theenumi}
 \renewcommand\p@enumiii{\theenumi(\theenumii)}
 \renewcommand\p@enumiv{\p@enumiii\theenumiii}
-\newcommand\labelitemi{\textbullet}
-\newcommand\labelitemii{\normalfont\bfseries \textendash}
+\newcommand\labelitemi{\normalfont\bfseries \textendash}
+\newcommand\labelitemii{\textbullet}
 \newcommand\labelitemiii{\textasteriskcentered}
 \newcommand\labelitemiv{\textperiodcentered}
+
+
 \newenvironment{description}
                {\list{}{\labelwidth\z@ \itemindent-\leftmargin
                         \let\makelabel\descriptionlabel}}
@@ -445,11 +437,16 @@
         \setcounter{page}\@ne
      \fi
     }
+
+%% ПРИЛОЖЕНИЯ
 \newcommand\appendix{\par
   \setcounter{chapter}{0}%
   \setcounter{section}{0}%
   \gdef\@chapapp{\appendixname}%
   \gdef\thechapter{\@Alph\c@chapter}}
+
+%% РИСУНКИ И ТАБЛИЦЫ
+\AtBeginDocument{\renewcommand{\figurename}{Рисунок}}
 \setlength\arraycolsep{5\p@}
 \setlength\tabcolsep{6\p@}
 \setlength\arrayrulewidth{.4\p@}
@@ -458,50 +455,51 @@
 \skip\@mpfootins = \skip\footins
 \setlength\fboxsep{3\p@}
 \setlength\fboxrule{.4\p@}
-\@addtoreset{equation}{chapter}
-\renewcommand\theequation{%
-  \ifnum \c@chapter>\z@ \thechapter.\fi\@arabic\c@equation}
+\@addtoreset {equation}{chapter}
+\renewcommand\theequation
+{\ifnum \c@chapter>\z@ \thechapter.\fi \@arabic\c@equation}
 \newcounter{figure}[chapter]
-\renewcommand\thefigure{%
-  \ifnum \c@chapter>\z@\thechapter.\fi \@arabic\c@figure}
+\renewcommand \thefigure
+{\ifnum \c@chapter>\z@ \thechapter.\fi \@arabic\c@figure}
 \def\fps@figure{tbp}
 \def\ftype@figure{1}
 \def\ext@figure{lof}
 \def\fnum@figure{\figurename~\thefigure}
 \newenvironment{figure}
-               {\@float{figure}}
-               {\end@float}
+{\@float{figure}}
+{\end@float}
 \newenvironment{figure*}
-               {\@dblfloat{figure}}
-               {\end@dblfloat}
+{\@dblfloat{figure}}
+{\end@dblfloat}
 \newcounter{table}[chapter]
-\renewcommand\thetable{%
-  \ifnum \c@chapter>\z@\thechapter.\fi\@arabic\c@table}
-%%% Bug fix 2000-9-21  missing backslash before c@chapter. JK.
+\renewcommand \thetable
+{\ifnum \c@chapter>\z@ \thechapter.\fi \@arabic\c@table}
 \def\fps@table{tbp}
 \def\ftype@table{2}
 \def\ext@table{lot}
 \def\fnum@table{\tablename~\thetable}
 \newenvironment{table}
-               {\@float{table}}
-               {\end@float}
+{\@float{table}}
+{\end@float}
 \newenvironment{table*}
-               {\@dblfloat{table}}
-               {\end@dblfloat}
+{\@dblfloat{table}}
+{\end@dblfloat}
 \newlength\abovecaptionskip
 \newlength\belowcaptionskip
-\setlength\abovecaptionskip{10\p@}
-\setlength\belowcaptionskip{0\p@}
+\setlength\abovecaptionskip{5\p@}
+\setlength\belowcaptionskip{5\p@}
+\def\captable{table}
+\def\capfigure{figure}
 \long\def\@makecaption#1#2{%
   \vskip\abovecaptionskip
-  \sbox\@tempboxa{#1: #2}%
-  \ifdim \wd\@tempboxa >\hsize
-    #1: #2\par
+  \ifx\@captype\captable
+  \normalfont #1 -- #2 \par
   \else
-    \global \@minipagefalse
-    \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
+  \small \bfseries \centering #1 -- \normalsize #2
   \fi
   \vskip\belowcaptionskip}
+
+
 \DeclareOldFontCommand{\rm}{\normalfont\rmfamily}{\mathrm}
 \DeclareOldFontCommand{\sf}{\normalfont\sffamily}{\mathsf}
 \DeclareOldFontCommand{\tt}{\normalfont\ttfamily}{\mathtt}
@@ -540,11 +538,18 @@
       \penalty\@highpenalty
     \endgroup
   \fi}
-\newcommand*\l@section{\@dottedtocline{1}{1.5em}{2.3em}}
-\newcommand*\l@subsection{\@dottedtocline{2}{3.8em}{3.2em}}
-\newcommand*\l@subsubsection{\@dottedtocline{3}{7.0em}{4.1em}}
-\newcommand*\l@paragraph{\@dottedtocline{4}{10em}{5em}}
-\newcommand*\l@subparagraph{\@dottedtocline{5}{12em}{6em}}
+
+\newlength{\l@sectionnumwidth}
+\setlength{\l@sectionnumwidth}{2.3em}
+\newlength{\l@subsectionnumwidth}
+\setlength{\l@subsectionnumwidth}{3.2em}
+\newlength{\l@subsubsectionnumwidth}
+\setlength{\l@subsubsectionnumwidth}{4.1em}
+
+\newcommand*\l@section{\@dottedtocline{1}{0.5em}{\l@sectionnumwidth}}
+\newcommand*\l@subsection{\@dottedtocline{2}{1em}{\l@subsectionnumwidth}}
+\newcommand*\l@subsubsection{\@dottedtocline{3}{1.5em}{\l@subsubsectionnumwidth}}
+
 \newcommand\listoffigures{%
     \chapter*{\listfigurename
       \@mkboth{\MakeUppercase\listfigurename}%
