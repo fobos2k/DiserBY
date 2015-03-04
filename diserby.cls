@@ -297,49 +297,50 @@
 \renewcommand\thesection      {\thechapter.\@arabic\c@section}
 \renewcommand\thesubsection   {\thesection.\@arabic\c@subsection}
 \renewcommand\thesubsubsection{\thesubsection .\@arabic\c@subsubsection}
-\newcommand\@chapapp{\chaptername}
-
-\newcommand\chapter{\if@openright\cleardoublepage\else\clearpage\fi
-                    \thispagestyle{plain}%
-                    \global\@topnum\z@
-                    \@afterindentfalse
-                    \secdef\@chapter\@schapter}
+\newcommand\@chapapp{\MakeUppercase\chaptername}
+\newcommand{\@chapternameposition}{\centering}
+\newcommand\chapter{\clearpage
+  \global\@topnum\z@
+  \@afterindenttrue
+  \secdef\@chapter\@schapter}
 \def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
-                         \refstepcounter{chapter}%
-                         \typeout{\@chapapp\space\thechapter.}%
-                         \addcontentsline{toc}{chapter}%
-                                   %{\protect \numberline {\thechapter}#1}%
-                                   {\normalfont\MakeUppercase\@chapapp\space\thechapter\space\space{} #1}%
-                    \else
-                      \addcontentsline{toc}{chapter}{\normalfont\MakeUppercase{#1}}%
-                    \fi
-                    \chaptermark{#1}%
-                    \addtocontents{lof}{\protect\addvspace{10\p@}}%
-                    \addtocontents{lot}{\protect\addvspace{10\p@}}%
-                    \@makechapterhead{#2}%
-                    \@afterheading}
+  \refstepcounter{chapter}%
+  \typeout{\@chapapp\space\thechapter.}%
+  \addcontentsline{toc}{chapter}%
+  {\normalfont
+    \@chapapp\space\thechapter\space\space{} #1}%
+  \else
+  \addcontentsline{toc}{chapter}%
+  {\normalfont
+    \MakeUppercase{#1}}%
+  \fi
+  \chaptermark{#1}%
+  \addtocontents{lof}{\protect\addvspace{10\p@}}%
+  \addtocontents{lot}{\protect\addvspace{10\p@}}%
+  \@makechapterhead{#2}%
+  \@afterheading}
 \def\@makechapterhead#1{%
-  \vspace*{50\p@}%
-  {\parindent \z@ \raggedright \normalfont
+  {\parindent \z@ \raggedright \large
     \ifnum \c@secnumdepth >\m@ne
-        \huge\bfseries \@chapapp\space \thechapter
-        \par\nobreak
-        \vskip 20\p@
+    \@chapternameposition
+    \MakeUppercase{\normalfont\bfseries \@chapapp\space \thechapter}
+    \par\nobreak
     \fi
+    \centering
     \interlinepenalty\@M
-    \Huge \bfseries #1\par\nobreak
+    \MakeUppercase{\normalfont \bfseries #1}\par\nobreak
     \vskip 40\p@
   }}
-\def\@schapter#1{\@makeschapterhead{#1}%
-                 \@afterheading}
-\def\@makeschapterhead#1{%
-  \vspace*{50\p@}%
-  {\parindent \z@ \raggedright
-    \normalfont
-    \interlinepenalty\@M
-    \Huge \bfseries  #1\par\nobreak
-    \vskip 40\p@
-  }}
+  \def\@schapter#1{\@makeschapterhead{#1}%
+    \@afterheading}
+  \def\@makeschapterhead#1{%
+    {\parindent \z@ \raggedright
+      \large
+      \centering
+      \interlinepenalty\@M
+      \MakeUppercase{\normalfont \bfseries  #1}\par\nobreak
+      \vskip 20\p@
+    }}
 \newcommand\section{\@startsection {section}{1}{\parindent}%
                                    {3.5ex \@plus 1ex \@minus .2ex}%
                                    {2.3ex \@plus.2ex}%
@@ -382,7 +383,6 @@
 \newcommand\labelitemii{\textbullet}
 \newcommand\labelitemiii{\textasteriskcentered}
 \newcommand\labelitemiv{\textperiodcentered}
-
 
 \newenvironment{description}
                {\list{}{\labelwidth\z@ \itemindent-\leftmargin
@@ -437,13 +437,35 @@
         \setcounter{page}\@ne
      \fi
     }
+    
+%% ФОРМУЛЫ
+\newcommand{\eqremname}{где}
+\newlength\Gost@EqRemLen
+\newlength\Gost@@EqRemLen
+\newenvironment{eqrem}{%
+  \begin{tabular}{@{}p{\Gost@@EqRemLen}@{ }p{\Gost@EqRemLen}}
+    {\eqremname}&%
+  }{%
+\end{tabular}
+}
+
+\AtBeginDocument{%
+  \makeatletter%
+  \setlength\Gost@EqRemLen{\textwidth}%
+  \addtolength\Gost@EqRemLen{-10mm}%
+  \settowidth\Gost@@EqRemLen{{\eqremname} }%
+  \addtolength\Gost@EqRemLen{-\Gost@@EqRemLen}%
+  \makeatother%
+}
 
 %% ПРИЛОЖЕНИЯ
+\newcommand{\@appendixnameposition}{\hfill}
 \newcommand\appendix{\par
   \setcounter{chapter}{0}%
   \setcounter{section}{0}%
-  \gdef\@chapapp{\appendixname}%
-  \gdef\thechapter{\@Alph\c@chapter}}
+  \renewcommand{\@chapternameposition}{\@appendixnameposition}
+  \gdef\@chapapp{\MakeUppercase\appendixname}%
+  \gdef\thechapter{\russian@Alph\c@chapter}}
 
 %% РИСУНКИ И ТАБЛИЦЫ
 \AtBeginDocument{\renewcommand{\figurename}{Рисунок}}
@@ -709,6 +731,9 @@
   \raggedbottom
 \fi
 \onecolumn
+\RequirePackage{geometry}
+\geometry{a4paper,top=2cm,bottom=2cm,left=3cm,right=1cm}
+\renewcommand{\@biblabel}[1]{#1.}
 \endinput
 %% 
 %% End of file `diserby.cls'.
