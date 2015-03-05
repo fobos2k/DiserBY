@@ -552,7 +552,7 @@
 }
 
 %% ОБЩАЯ ХАРАКТЕРИСТИКА РАБОТЫ (п.11)
-\def\CharacteristicTitle{ОБЩАЯ ХАРАКТЕРИСТИКА РАБОТЫ}
+\newcommand\CharacteristicTitle{ОБЩАЯ ХАРАКТЕРИСТИКА РАБОТЫ}
 \def\CharacteristicLinksTitle{Связь работы с научными программами (проектами), темами}
 \def\CharacteristicTargetsTitle{Цель и задачи исследования}
 \def\CharacteristicNoveltyTitle{Научная новизна}
@@ -618,6 +618,23 @@
   \fi
 }
 
+%% ЗАКЛЮЧЕНИЕ
+\newcommand\ConclusionTitle{ЗАКЛЮЧЕНИЕ}
+\newcommand\ConclusionResultsTitle{Основные научные результаты диссертации}
+\newcommand\ConclusionRecomendationTitle{Рекомендации по практическому использованию результатов}
+\newcommand\Conclusion{
+  \chapter*\ConclusionTitle
+  \addcontentsline{toc}{chapter}\ConclusionTitle
+  }
+\newcommand\ConclusionResults{
+  \section*\ConclusionResultsTitle
+  \addcontentsline{toc}{section}\ConclusionResultsTitle
+  }
+\newcommand\ConclusionRecomendation{
+  \section*\ConclusionRecomendationTitle
+  \addcontentsline{toc}{section}\ConclusionRecomendationTitle
+}
+
 %% БИБЛИОГРАФИЯ
 \RequirePackage{cite}
 \newcommand\BibliographyList{
@@ -626,6 +643,7 @@
   }
 \newdimen\bibindent
 \setlength\bibindent{1.5em}
+\AtBeginDocument{\renewcommand{\bibname}{Список использованных источников}}
 \newenvironment{thebibliography}[1]
 {\section*{\bibname}%
   \addcontentsline{toc}{section}{\bibname}%
