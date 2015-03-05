@@ -42,6 +42,7 @@
       }%
    \renewcommand\newblock{\par}}%
 }
+
 \ExecuteOptions{a4paper,14pt,thesis,final,openany}
 \ProcessOptions
 
@@ -62,7 +63,6 @@
 \newfontfamily\cyrillicfonttt{Courier New}
 
 \RequirePackage{indentfirst}  % Абзацный отступ в первом абзаце
-
 
 \RequirePackage{exscale}
 \setlength\lineskip{1\p@}
@@ -300,6 +300,15 @@
                                    {\normalfont\bfseries}}
 
 %% СПИСКИ
+\renewcommand{\@listI}{\topsep=0pt}
+\let\orig@Itemize =\itemize
+\let\orig@Enumerate =\enumerate
+\let\orig@Description =\description
+\def\Nospacing{\itemsep=0pt \topsep=0pt \partopsep=0pt \parskip=0pt \parsep=0pt}
+\renewenvironment{itemize}{\orig@Itemize\Nospacing}{\endlist}
+\renewenvironment{enumerate}{\orig@Enumerate\Nospacing}{\endlist}
+%\renewenvironment{description}{\orig@Description\Nospacing}{\endlist}
+
 \setlength\leftmargini  {2.5em}
 \leftmargin  \leftmargini
 \setlength\leftmarginii  {2.2em}
@@ -331,7 +340,7 @@
 
 \newenvironment{description}
                {\list{}{\labelwidth\z@ \itemindent-\leftmargin
-                        \let\makelabel\descriptionlabel}}
+                        \let\makelabel\descriptionlabel}\Nospacing}
                {\endlist}
 \newcommand*\descriptionlabel[1]{\hspace\labelsep
                                 \normalfont\bfseries #1}
@@ -611,7 +620,7 @@
 
 %% БИБЛИОГРАФИЯ
 \RequirePackage{cite}
-\newcommand\Bibliography{
+\newcommand\BibliographyList{
   \chapter*{БИБЛИОГРАФИЧЕСКИЙ СПИСОК}
   \addcontentsline{toc}{chapter}{БИБЛИОГРАФИЧЕСКИЙ СПИСОК}%
   }
@@ -645,6 +654,10 @@
   \endlist}
 
 \newcommand{\mybibname}{Список публикаций соискателя учёной степени}
+ \@ifpackageloaded{hyperref}{% Extension of the package hyperref
+   \newcommand{\hyp@def}[1]{\hyperdef{cite}{#1}{}}
+  }{
+  \newcommand{\hyp@def}[1]{}}
 \newenvironment{mybibliography}[1]
 {\section*{\mybibname}%
   \addcontentsline{toc}{section}{\mybibname}%
@@ -660,8 +673,8 @@
     \usecounter{enumiv}%
     \let\p@enumiv\@empty
     \renewcommand\theenumiv{\@arabic\c@enumiv}
-    %\renewcommand\bibitem[1]{\item\hyp@def{##1}\if@filesw \immediate\write\@auxout
-    %  {\string\bibcite{##1}{\@arabic\c@enumiv--A}}\fi\ignorespaces}%
+    \renewcommand\bibitem[1]{\item\hyp@def{##1}\if@filesw \immediate\write\@auxout
+      {\string\bibcite{##1}{\@arabic\c@enumiv--A}}\fi\ignorespaces}%
   }%end of the second argument of the \list 
   \sloppy
   \clubpenalty4000
