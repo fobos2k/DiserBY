@@ -45,6 +45,8 @@
 \ExecuteOptions{a4paper,14pt,thesis,final,openany}
 \ProcessOptions
 
+\input{size\@ptsize.clo}
+
 %% Собирать только XeLaTeX-ом, со всеми вытекающими...
 % Язык и шрифты
 \RequirePackage{polyglossia}
@@ -61,64 +63,7 @@
 
 \RequirePackage{indentfirst}  % Абзацный отступ в первом абзаце
 
-\def\EC@family#1#2#3#4#5{%
-  \DeclareFontShape{#1}{#2}{#3}{#4}%
-  {<5><6><7><8><9><10><10.95><12><14.4>%
-   <17.28><20.74><24.88><29.86><35.83><42.99><51.59>genb*#5}{}}
-\EC@family{T1}{cmr}{m}{n}{ecrm}
-\EC@family{T1}{cmr}{m}{sl}{ecsl}
-\EC@family{T1}{cmr}{m}{it}{ecti}
-\EC@family{T1}{cmr}{m}{sc}{eccc}
-\EC@family{T1}{cmr}{bx}{n}{ecbx}
-\EC@family{T1}{cmr}{b}{n}{ecrb}
-\EC@family{T1}{cmr}{bx}{it}{ecbi}
-\EC@family{T1}{cmr}{bx}{sl}{ecbl}
-\EC@family{T1}{cmr}{bx}{sc}{ecxc}
-\EC@family{T1}{cmr}{m}{ui}{ecui}
-\DeclareFontShape{OT1}{cmr}{m}{n}%
-     {<5><6><7><8><9><10><12>gen*cmr%
-      <10.95>cmr10%
-      <14.4>cmr12%
-      <17.28><20.74><24.88><29.86><35.83><42.99><51.59>cmr17}{}
-\DeclareFontShape{OT1}{cmr}{m}{sl}%
-     {<5><6><7>cmsl8%
-      <8><9>gen*cmsl%
-      <10><10.95>cmsl10%
-      <12><14.4><17.28><20.74><24.88><29.86><35.83><42.99><51.59>cmsl12%
-      }{}
-\DeclareFontShape{OT1}{cmr}{m}{it}%
-     {<5><6><7>cmti7%
-      <8>cmti8%
-      <9>cmti9%
-      <10><10.95>cmti10%
-      <12><14.4><17.28><20.74><24.88><29.86><35.83><42.99><51.59>cmti12%
-      }{}
-\DeclareFontShape{OT1}{cmr}{m}{sc}%
-     {<5><6><7><8><9><10><10.95><12>%
-      <14.4><17.28><20.74><24.88><29.86><35.83><42.99><51.59>cmcsc10%
-      }{}
-\DeclareFontShape{OT1}{cmr}{m}{ui}
-   {<5><6><7><8><9><10><10.95><12>%
-      <14.4><17.28><20.74><24.88><29.86><35.83><42.99><51.59>cmu10%
-      }{}
-\DeclareFontShape{OT1}{cmr}{b}{n}
-     {<5><6><7><8><9><10><10.95><12>%
-      <14.4><17.28><20.74><24.88><29.86><35.83><42.99><51.59>cmb10%
-      }{}
-\DeclareFontShape{OT1}{cmr}{bx}{n}
-   {<5><6><7><8><9>gen*cmbx%
-      <10><10.95>cmbx10%
-      <12><14.4><17.28><20.74><24.88><29.86><35.83><42.99><51.59>cmbx12%
-      }{}
-\DeclareFontShape{OT1}{cmr}{bx}{sl}
-      {<5><6><7><8><9>%
-      <10><10.95><12><14.4><17.28><20.74><24.88><29.86><35.83><42.99><51.59>cmbxsl10%
-      }{}
-\DeclareFontShape{OT1}{cmr}{bx}{it}
-      {<5><6><7><8><9>%
-      <10><10.95><12><14.4><17.28><20.74><24.88><29.86><35.83><42.99><51.59>cmbxti10%
-      }{}
-\input{size\@ptsize.clo}
+
 \RequirePackage{exscale}
 \setlength\lineskip{1\p@}
 \setlength\normallineskip{1\p@}
@@ -430,12 +375,12 @@
 \newenvironment{titlepage}
     { \newpage
       \thispagestyle{empty}%
-      \setcounter{page}\@ne
+      %\setcounter{page}\@ne
     }%
     {\newpage
-     \if@twoside\else
-        \setcounter{page}\@ne
-     \fi
+%     \if@twoside\else
+%        \setcounter{page}\@ne
+%     \fi
     }
     
 %% ФОРМУЛЫ
@@ -730,7 +675,23 @@
 \newcommand\newblock{\hskip .11em\@plus.33em\@minus.07em}
 \let\@openbib@code\@empty
 
-
+%%% Колонтитулы %%%
+\RequirePackage{fancyhdr}
+% Порядковый номер страницы печатают на середине верхнего поля страницы (п.24)
+\let\ps@plain\ps@fancy              % Подчиняем первые страницы каждой главы общим правилам
+\pagestyle{fancy}                   % Меняем стиль оформления страниц
+\fancyhf{}                          % Очищаем текущие значения
+\fancyhead[C]{\thepage}             % Печатаем номер страницы на середине верхнего поля
+\renewcommand{\headrulewidth}{0pt}  % Убираем разделительную линию
+\fancypagestyle{plain}{%
+  \fancyhf{} % clear all header and footer fields
+  \fancyhead[C]{\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}}
+\fancypagestyle{empty}{%
+  \fancyhf{} % clear all header and footer fields
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}}
 
 \newcommand\contentsname{Contents}
 \newcommand\listfigurename{List of Figures}
