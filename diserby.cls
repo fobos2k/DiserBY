@@ -232,6 +232,8 @@
   \global\let\and\relax
 }
 
+%% ГЛАВЫ, РАЗДЕЛЫ...
+\AtBeginDocument{\renewcommand{\chaptername}{ГЛАВА}}
 \newcommand*\chaptermark[1]{}
 \setcounter{secnumdepth}{2}
 \newcounter {chapter}
@@ -242,7 +244,7 @@
 \renewcommand\thesection      {\thechapter.\@arabic\c@section}
 \renewcommand\thesubsection   {\thesection.\@arabic\c@subsection}
 \renewcommand\thesubsubsection{\thesubsection .\@arabic\c@subsubsection}
-\newcommand\@chapapp{\MakeUppercase\chaptername}
+\newcommand\@chapapp{\chaptername}
 \newcommand{\@chapternameposition}{\centering}
 \newcommand\chapter{\clearpage
   \global\@topnum\z@
@@ -250,7 +252,7 @@
   \secdef\@chapter\@schapter}
 \def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
   \refstepcounter{chapter}%
-  \typeout{\@chapapp\space\thechapter.}%
+  \typeout{\MakeUppercase\@chapapp\space\thechapter.}%
   \addcontentsline{toc}{chapter}%
   {\normalfont
     \@chapapp\space\thechapter\space\space{} #1}%
@@ -268,7 +270,7 @@
   {\parindent \z@ \raggedright \large
     \ifnum \c@secnumdepth >\m@ne
     \@chapternameposition
-    \MakeUppercase{\normalfont\bfseries \@chapapp\space \thechapter}
+    \MakeUppercase{\normalfont\bfseries \MakeUppercase\@chapapp\space \thechapter}
     \par\nobreak
     \fi
     \centering
@@ -414,11 +416,12 @@
 
 %% ПРИЛОЖЕНИЯ
 \newcommand{\@appendixnameposition}{\hfill}
+\AtBeginDocument{\renewcommand\appendixname{ПРИЛОЖЕНИЕ}}
 \newcommand\appendix{\par
   \setcounter{chapter}{0}%
   \setcounter{section}{0}%
   \renewcommand{\@chapternameposition}{\@appendixnameposition}
-  \gdef\@chapapp{\MakeUppercase\appendixname}%
+  \gdef\@chapapp{\appendixname}%
   \gdef\thechapter{\russian@Alph\c@chapter}}
 
 %% РИСУНКИ И ТАБЛИЦЫ
