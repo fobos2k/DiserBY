@@ -682,6 +682,9 @@
 \newenvironment{mybibliography}[1]
 {\section*{\mybibname}%
   \addcontentsline{toc}{section}{\mybibname}%
+  \newcommand\selectlanguageifdefined#1{
+    \expandafter\ifx\csname date#1\endcsname\relax
+    \else\language\csname l@#1\endcsname\fi}
   \list{\@biblabel{\@arabic\c@enumiv--A}\hfill}%
   {\settowidth\labelwidth{\@biblabel{#1--A.}}%
     \setlength\labelsep{0em}
@@ -753,7 +756,17 @@
 \onecolumn
 \RequirePackage{geometry}
 \geometry{a4paper,top=2cm,bottom=2cm,left=3cm,right=1cm}
+
+\RequirePackage{wrapfig}
+\RequirePackage{amsmath,amssymb,amsfonts}
+
 \renewcommand{\@biblabel}[1]{#1.}
+
+%% Для совместимости со старым стилем thesisby
+\newcommand{\No}{\textnumero} % Символ номера
+
+\sloppy
+
 \endinput
 %% 
 %% End of file `diserby.cls'.
